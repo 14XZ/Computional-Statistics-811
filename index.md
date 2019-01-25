@@ -5,11 +5,17 @@ You can use the [editor on GitHub](https://github.com/14XZ/xzhang-811/edit/maste
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
 
-```markdown
+
 Syntax highlighted code block
 
 # Research interest
+- the psychological sources of conflict
+- the domestic sources of international conflict
 
 # Data
+- Simulation of conjoint experiment data
+- LobbyView
 
 # Method
+- Experiments
+- Quasi-experiments
