@@ -1,0 +1,62 @@
+---
+title: "813 Data exercise 1"
+author: "X. Zhang"
+date: "January 25, 2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r echo=FALSE}
+library(tidyverse)
+library(haven)
+EX1_813_file <- "https://github.com/14XZ/xzhang-811/raw/master/PS835_EX1_35435.dta" #seed: 35435
+EX1_813 <-read_dta(EX1_813_file) 
+```
+
+
+```{r}
+ggplot(EX1_813, aes(x = terms, y = Leg_Act)) + geom_point()
+```
+plotting legislative acts against terms, graph show no clear pattern.
+
+```{r}
+
+leg_mod <- lm(Leg_Act ~ terms, data = EX1_813)
+summary(leg_mod)
+```
+intercept: 7.57; coefficient of terms variable: 0.17
+
+```{r}
+EX1_813$residual <- resid(leg_mod)
+EX1_813$pred <- predict(leg_mod)
+```
+
+```{r plot the residual}
+ggplot(EX1_813, aes(x = terms, y = Leg_Act)) + geom_point()
+```
+
+```{r correlation between observed and predicted value of Leg_Act}
+correlation <- cor(EX1_813$Leg_Act, EX1_813$pred)
+```
+correlation of observed legislative act and predicted value is 0.041
+
+```{r compare the aforementioned correlation sqaured and R^2 output of the regression model}
+
+summary(leg_mod)$r.squared
+
+c.sq <- correlation^2
+```
+correlation squared (c.sq) and r square of the model is the same.
+
+```{r hypothesis test}
+summary(leg_mod)
+```
+
+# Discussion:
+Set the confidence level at 5% , the p-value of terms variable would be less than 0.05
+model output suggest the term variable has a p-value of 0.86 > 0.05;
+Thus, the null hypothesis of b=0 cannot be rejected.
