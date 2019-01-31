@@ -1,4 +1,4 @@
-## X Zhang's PS 811 GitHub Pages
+# X Zhang's PS 811 GitHub Portfolio Pages
 
 
 # Research interest
@@ -7,11 +7,15 @@
 
 # Data
 - Simulation of conjoint experiment data
+- Twitter Data
+- Weibo Data: https://hub.hku.hk/cris/dataset/dataset107483
+- LobbyView 
 
-- LobbyView
-- *Potential question: how regime types affect the legislative consequences of foreign lobbies in the US congress.
-
+# A Potential question
+- How regime types affect the legislative consequences of foreign lobbies in the US congress.
+- Are conflict-seeking individual more likely to be attentive members of the public?
 
 # Method
 - Experiments
 - Quasi-experiments
+- Machine Learning
