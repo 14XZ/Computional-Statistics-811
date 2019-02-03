@@ -16,33 +16,50 @@ library(haven)
 EX1_813_file <- "https://github.com/14XZ/xzhang-811/raw/master/PS835_EX1_35435.dta" #seed: 35435
 EX1_813 <-read_dta(EX1_813_file) 
 ```
+<!-- Two minor comments:
+1. Nice pulling the data file from a stable web address. However, because this is a git repo, you can assume that anyone with this file also has the rest of the repo, so you could read the data file directly (which would allow this script to be knitted without being connected to the internet).
+2. library() assumes the package is already installed, which is fine for a problem set that will only be knitted on your laptop, but for all other work, we will want to make sure these packages are installed. See the example. -->
 
-
+<!-- Not important for this assignment, but the below chunk has no name, thus the figure it creates will be saved without a name you can call upon in the future-->
 ```{r}
 ggplot(EX1_813, aes(x = terms, y = Leg_Act)) + geom_point()
 ```
+<!-- For this first assignment, I don't think Dave cares about labeling plot axes because he did not both with it in his example (and neither did I), but in general, discriptive labels are good form. -->
+
 plotting legislative acts against terms, graph show no clear pattern.
 
 ```{r}
-
 leg_mod <- lm(Leg_Act ~ terms, data = EX1_813)
 summary(leg_mod)
 ```
 intercept: 7.57; coefficient of terms variable: 0.17
 
+<!--
+This is a correct answer, but the great thing about R Markdown is that it helps us avoid typos.
+Try instead:
+Intercept: `r leg_mod$coefficients[1]`; coefficient of terms variable: `r leg_mod$coefficients[2]`
+-->
+
+
+
 ```{r}
 EX1_813$residual <- resid(leg_mod)
 EX1_813$pred <- predict(leg_mod)
 ```
+<!-- Well done keeping it in a data frame --> 
+
 
 ```{r plot the residual}
 ggplot(EX1_813, aes(x = terms, y = Leg_Act)) + geom_point()
 ```
+<!-- Again, the axes could have better labels --> 
 
+<!-- This is a long name for a chunk-->
 ```{r correlation between observed and predicted value of Leg_Act}
 correlation <- cor(EX1_813$Leg_Act, EX1_813$pred)
 ```
-correlation of observed legislative act and predicted value is 0.041
+correlation of observed legislative act and predicted value is 0.041 
+<!-- The correlation of observed legislative activity and predicted value is `r correlation` --> 
 
 ```{r compare the aforementioned correlation sqaured and R^2 output of the regression model}
 
@@ -51,6 +68,7 @@ summary(leg_mod)$r.squared
 c.sq <- correlation^2
 ```
 correlation squared (c.sq) and r square of the model is the same.
+<!--Correlation squared (`r c.sq`) and r square of the model is the same.-->
 
 ```{r hypothesis test}
 summary(leg_mod)
@@ -60,3 +78,8 @@ summary(leg_mod)
 Set the confidence level at 5% , the p-value of terms variable would be less than 0.05
 model output suggest the term variable has a p-value of 0.86 > 0.05;
 Thus, the null hypothesis of b=0 cannot be rejected.
+
+<!-- Probably worth spelling it out a little more for the sake of accuracy:
+For a significance level of .05 (a confidence level of 95%), the p-value for the coefficient on the terms variable must be less than 0.05 to reject the null hypothesis.
+The model output suggests the term variable coeficient has a p-value of summary(leg_mod)$coefficients[,4][2] > 0.05;
+Thus, the null hypothesis of $\beta=0$ cannot be rejected. -->
