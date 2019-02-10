@@ -27,6 +27,8 @@ summary(m1)
 1.(a) (b)
 
 ```{r}
+sm1 <- summary(m1)
+m1_mse <- mean(sm1$residuals^2)
 
 ggplot(problem_set_5_data, aes(x = povr, y = pcrimer)) + geom_point() +
   geom_smooth(method='lm')
@@ -70,12 +72,22 @@ m2 <- lm(pcrimer ~ povr + urbanization_rate, data = problem_set_5_data)
 
 summary(m2)
 
+sm2<- summary(m2)
+
+m2_mse <- mean(sm2$residuals^2)
+
+m2_mse < m1_mse
+
 ggplot(problem_set_5_data, aes(x = urbanization_rate, y = pcrimer)) + geom_point() +
   geom_smooth(method='lm')
 
 ```
 c. How well does the model fit the data?
-R-squared:  0.4043 suggest 40% of the variation in property crime rate is explained by the second model. 
+d. Interpret the estimated parameters substantively and statistically.
+
+R-squared:  0.4043 suggest 40% of the variation in property crime rate is explained by the second model.R-squareed has increased with added variable. 
+
+The mean sqaured error of model model 2 is smaller than the mse of model 1, suggesting a slightly better fit to the data.
 
 The urbanization term has a coefficient of 835.49, indicating that 1 percent increase in the state's urbanization level is associated with a 835.49 increase in property crimes per 100,000 population.
 
@@ -85,7 +97,6 @@ The urbanization variable has a p-value of 0.0717 suggesting a reasonable probab
 
 The interception in model 2 is 594.88. Sugessting that if both urbanization rate and poverty level are zero, the number of property crime per 100,000 population is 594.88. However, given that urbanization rate cannot be 0, this interpcet does not have substantive meaning.
 
-The coefficient and standard error of poverty level variable did not change signficant after adding the urbanization variable to the model.
+The coefficient and standard error of poverty level variable did not change signficantly after adding the urbanization variable to the model.
 
 
-d. Interpret the estimated parameters substantively and statistically.

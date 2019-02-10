@@ -1,0 +1,291 @@
+---
+title: "R Markdown"
+author: "Devin Judge-Lord"
+date: 
+output:
+  html_document:
+    latex_engine: pdflatex
+    toc: yes
+  pdf_document:
+    toc: yes
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+![](http://www.phdcomics.com/comics/archive/phd101212s.gif)
+
+**Never copy and paste numbers, table, numbers, or figures into a paper.**
+
+---
+
+## R Markdown
+
+Markdown is just **plain text** that can be rendered as HTML, PDF, or even Microsoft Word. Rstudio's "Knit" button will make the selected document.
+
+We can use various syntaxes, like $\LaTeX$ and **R** as needed inline with the rest of our text. For example, typing "\$`y = \alpha + X\beta`\$" gives us "$y = \alpha + X\beta$" and typing "\{`r` `nchar("hello world")`\}" gives us "`r  nchar("hello world")`"---pretty cool. For more, see <http://rmarkdown.rstudio.com>, especially this [cheatsheet](http://rmarkdown.rstudio.com).
+
+
+
+--- 
+
+We can embed a chunk of R code like this:
+```{r pressure}
+data("pressure") # a dataset built into R
+head(pressure)
+```
+
+In [the .Rmd file](https://github.com/judgelord/PS811/blob/master/2-RMarkdown.Rmd), you'll see that the above chunk of R code begins with "\`\`\`\{r pressure\}", which tells the computer that this chunk is `r` code and names this chunk "pressure." 
+
+Give code chunks informative names! If your chunk produces figures, they will be saved with this name.
+
+---
+
+If we don't want our code chunk in the output, only the results, we add `echo = FALSE` to the header:
+
+```{r pressure_echo_false, echo = FALSE}
+head(pressure)
+```
+
+We can set defaults for the whole document (e.g. `knitr::opts_chunk$set(echo = TRUE)`). See the above "setup" chunk in this .Rmd file.
+
+Problem sets and papers will use `echo = FALSE` to display just the output. For notes, we may want to see our code `echo = TRUE`. Or, if our output is HTML, hide our code; try knitting to HTML after adding `code_folding: hide` to the YAML header in this .Rmd file like this:
+```output: 
+  html_document:
+      latex_engine: pdflatex
+      code_folding: hide
+```
+
+To display code we don't want to run, we add `eval = FALSE`.
+
+```{r, code_not_run, eval = FALSE }
+This code will not run. 
+```
+
+For example, if you want to share code that does not work on your 811 page, use `eval = FALSE`.
+
+---
+
+It is safer to use `cache = FALSE`, which re-computes all results each time and will thus update if your data have changed. If computing is taking a long time, you can use `cache = TRUE` to knit faster, but this will only run chunks where the *code* has changed. 
+
+---
+
+## Including Plots
+
+We can also embed plots. For example:
+
+```{r pressure_plot}
+library(ggplot2);
+ggplot(data = pressure, aes(x = temperature, y = pressure)) + 
+  geom_point() + 
+  geom_line()
+```
+
+Note that we needed to load the library `ggplot2` because knitting uses a new **R** session. Your .Rmd file must load any required libraries, functions, and data. The upshot of this is that knitting is self-contained. It starts fresh; not depending on whatever you may have done in **R** previously.
+
+We can adjust the size by adding `fig.width = 3, fig.height= 2` to get a $4\times3$ inch figure.
+
+```{r pressure_size, echo=FALSE, fig.width = 3, fig.height = 2}
+ggplot(data = pressure, aes(x = temperature, y = pressure)) + 
+  geom_point() + 
+  geom_line()
+```
+
+---
+
+Let us also center `fig.align='center` and add a caption, `fig.cap = "Plotting Temperature vs. Pressure"`:
+
+```{r pressure_cap, echo=FALSE, fig.cap = "Plotting Temperature vs. Pressure", fig.width = 3, fig.height = 2, fig.align='center'}
+ggplot(data = pressure, aes(x = temperature, y = pressure)) + 
+  geom_point() + 
+  geom_line()
+```
+
+---
+
+<!--
+We can link to figures in the text of the document by adding `\\label{fig:pressure}` to the caption.
+Typing `\ref{fig:pressure}` will now always correctly reference figure \ref{fig:pressure} regardless of how many figures are added above it.
+
+```{r pressure_cap_size_ling, echo=FALSE, fig.cap = "\\label{fig:pressure}Plotting Temperature vs. Pressure with a label", fig.width = 3, fig.height = 2, fig.align='center'}
+ggplot(data = pressure, aes(x = temperature, y = pressure)) + 
+  geom_point() + 
+  geom_line() 
+```
+-->
+---
+
+# Two ways to code
+
+#### 1. Get code working in a .R file (e.g. in your /scratchpad subfolder), then copy the final code into .Rmd file chunks. 
+
+#### 2. Workshop code in .Rmd file chunks. 
+#### You may want to change RStudio settings (gear button) to `Chunk Output in Consol`
+
+Either way, press command/control+enter to run **a line or highlighted section** locally. If using a remote server, command/control+option/alt+enter will send it to the terminal/bash.
+
+\newpage
+---
+
+# Writing Math
+We can use MathJax and/or $\LaTeX$ to write nice-looking math.  For example, we can write out a regression equation as $y = \alpha + X\beta + \varepsilon$, without having to copy, paste, or insert special symbols. To write out anything math related, we enclose it in dollar signs $\$$`math`$\$$. The regression equasion above, for example, is $\$$ `y = \alpha + X\beta + \varepsilon` $\$$. If we want to index something by adding subscripts $x_{1}, x_{2}$ etc, the code is $\$$`x_{1}, x_{2}`$\$$. Fractions are written such that $\$$`\frac{1}{2}`$\$$ is $\frac{1}{2}$, and exponents ($2^{2}$) are written $\$$`2^{2}`$\$$.
+
+---
+
+The Greek letters have a slash before them which tells $\LaTeX$ or MathJax to print that as a Greek letter. Similarly $2 \times 2$ is written $\$$ `2 \times 2` $\$$. See guides to special characters and formatting in $\LaTeX$ [here](https://users.dickinson.edu/~richesod/latex/latexcheatsheet.pdf) and MathJax [here](https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference). I regularly google symbols.
+
+---
+
+## Matrices
+
+To write a matrix:
+$$ 
+\left[
+\begin{array}{ccc}
+1 & 2 & 3 \\
+4 & 5 & 6\\
+7 & 8 & 0
+\end{array}
+\right] 
+$$
+we write:
+```{r, matrix_demo_no comments, echo = TRUE, eval = FALSE}
+$$ 
+\left[
+\begin{array}{ccc}
+1 & 2 & 3 \\
+4 & 5 & 6\\
+7 & 8 & 0
+\end{array}
+\right] 
+$$
+```
+
+where:
+```{r, matrix_demo, echo = TRUE, eval = FALSE}
+$$ % start Latex mode
+\left[ %creates the left bracket, the "\left" command scales the bracket "["
+\begin{array}{ccc} % Creates the "array" (matrix), {ccc} defines the number of columns
+1 & 2 & 3 \\ % "&" divides the columns, "\\" creates a new line
+4 & 5 & 6\\
+7 & 8 & 0
+\end{array} % ends the matrix
+\right] %creates the left bracket, the "\right" command scales the bracket "]"
+$$ % ends LaTeX mode
+```
+
+### Matrix multiplication
+
+$$
+\left[
+\begin{array}{ccc}
+1 & 2 & 3 \\
+4 & 5 & 6\\
+7 & 8 & 0
+\end{array}
+\right] 
+\times 
+\left[
+\begin{array}{ccc}
+1 \\
+1 \\
+1
+\end{array}
+\right] 
+= 
+\left[
+\begin{array}{ccc}
+1 + 2 + 3 \\
+4 + 5 + 6\\
+7 + 8 + 0
+\end{array}
+\right] 
+= 
+\left[
+\begin{array}{ccc}
+5 \\
+15\\
+15
+\end{array}
+\right]
+$$
+
+$$
+\left[
+\begin{array}{ccc}
+1 & 1 & 1
+\end{array}
+\right] 
+\times
+\left[
+\begin{array}{ccc}
+1 & 2 & 3 \\
+4 & 5 & 6\\
+7 & 8 & 0
+\end{array}
+\right] 
+= 
+\left[
+\begin{array}{ccc}
+1 + 4 + 7 & 2 + 5 + 8 &  3 + 6 + 0
+\end{array}
+\right] 
+= 
+\left[
+\begin{array}{ccc}
+12 & 15 & 9
+\end{array}
+\right]
+$$
+
+\newpage
+---
+
+# Example Notes
+
+### Linear regression with fixed effects:
+$$ y_{i} = \alpha_{0} + \alpha_{j} + x_{i} \beta + \varepsilon $$
+Where $\alpha_{0}$ is the intercept, 
+
+$\alpha_{j}$ are fixed effects (effects that do not vary by $x$, i.e. intercept shifts) for each group $j$, 
+
+$x$ and $y$ are vectors of observations, and
+
+$\varepsilon$ is the error.
+
+### OLS estimation 
+
+Data:
+$$
+X = 
+\left[
+\begin{array}{cc}
+x_{1, 1} & x_{1, 2} \\
+x_{2, 1} & x_{2, 2} \\
+\end{array}
+\right],
+\\
+y = 
+\left[
+\begin{array}{cc}
+y_{1}\\
+y_{2}\\
+\end{array}
+\right]
+$$
+
+OLS equation
+$$
+\hat{\beta} = (X'X)^{-1}(X'y)
+$$
+
+### Logistic link function:
+$$ Pr(y_{i} = 1) = \frac{1}{1 + e^{-x_{i} \beta}} $$
+
+### Poisson PMF:
+$$
+      \frac{\lambda^k}{k!} e^{-\lambda}
+$$
+
+### Gaussian (normal) PDF:
+$$ \frac{1}{\sigma\sqrt{2\pi}}\, e^{-\frac{(x - \mu)^2}{2 \sigma^2}} $$
+
