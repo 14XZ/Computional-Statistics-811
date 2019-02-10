@@ -57,6 +57,4 @@ summary(leg_mod)
 ```
 
 # Discussion:
-Set the confidence level at 5% , the p-value of terms variable would be less than 0.05
-model output suggest the term variable has a p-value of 0.86 > 0.05;
-Thus, the null hypothesis of b=0 cannot be rejected.
+Testing the hypothesis at p-value = 0.05.The model output suggests that although the terms variable have a coefficient 0.1725, which suggests more terms are associated with more legislative actions. However, the terms variable has a p-value of 0.86, which is larger than 0.05; Thus, the null hypothesis of b=0 cannot be rejected. The intercept 7.5693 suggesting that 0 term legislators have approximately 7.5 legislative acts. However, sine there is no 0 term legislators, it is difficult to assign substantive interpretation to the intercept.
