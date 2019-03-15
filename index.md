@@ -22,7 +22,7 @@
 
 # Some visualization for the ongoing project
 
-![alt text](https://github.com/14XZ/Audience-Reward/blob/master/top%20keywords.png)
+![top features](https://github.com/14XZ/Audience-Reward/blob/master/top%20keywords.png)
 
 
 ```markdown
@@ -49,7 +49,7 @@ ggplot(w17_hy_topfeatures, aes(x=reorder(Words, -w17_hy_topfeatures), y=w17_hy_t
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) + xlab("Feature") + ylab("Count") +
   labs(title = "top keywords in post mentioning Scarborough Shoal", caption = "Other than reference to the location and two conflicting states, top keywords include terms such as 'sovereignty' and 'oil'", x = "year", y = "team runs per game" )
 ```  
-![alt text](https://github.com/14XZ/Audience-Reward/blob/master/top%20keywords%20word%20cloud.png)
+![wordcloud](https://github.com/14XZ/Audience-Reward/blob/master/top%20keywords%20word%20cloud.png)
 
 ```markdown
 # plot a word cloud
